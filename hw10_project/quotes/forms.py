@@ -15,18 +15,19 @@ class AuthorForm(ModelForm):
 
 
 class TagForm(ModelForm):
-    tag = CharField(max_length=25, required=True, widget=TextInput(attrs={'class': 'form-control'}))
+    class TagForm(ModelForm):
+        name = CharField(max_length=25, required=True, widget=TextInput(attrs={'class': 'form-control'}))
 
-    class Meta:
-        model = Tag
-        fields = ['tag']
+        class Meta:
+            model = Tag
+            fields = ['name']
 
 
 class QuoteForm(ModelForm):
     quote = CharField(max_length=1000, widget=TextInput(attrs={'class': 'form-control'}))
     author = ModelChoiceField(queryset=Author.objects.all().order_by('fullname'),
                               widget=Select(attrs={"class": "form-select"}))
-    tags = ModelMultipleChoiceField(queryset=Tag.objects.all().order_by('id'),
+    tags = ModelMultipleChoiceField(queryset=Tag.objects.all().order_by('name'),
                                     widget=SelectMultiple(attrs={"class": "form-select", "size": "7"}))
 
     class Meta:
